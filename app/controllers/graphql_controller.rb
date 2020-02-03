@@ -70,7 +70,7 @@ class GraphqlController < ApplicationController
   end
 
   def authenticate_token
-    # Reactアプリで取得した IdToken を Cookie に入れておき、ヘッダーに入れ込むワークアラウンド
+    # NOTE: Reactアプリで取得した IdToken を Cookie に入れておき、ヘッダーに入れ込む GraphiQL 用のワークアラウンド
     request.headers['Authorization'] = "Bearer #{cookies["_graphql_token"]}" if Rails.env.development? && cookies["_graphql_token"].present?
 
     authenticate_with_http_token do |id_token, options|
