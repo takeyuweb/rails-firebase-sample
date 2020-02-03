@@ -1,0 +1,31 @@
+version: "3"
+volumes:
+  postgresql_data:
+    driver: local
+services:
+  db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  app:
+    image: my_app
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    user: ruby
+    command: >
+      /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/src
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+    environment:
+      DATABASE_HOST: db
+    depends_on:
+      - db
