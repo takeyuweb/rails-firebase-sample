@@ -28,6 +28,7 @@ services:
     environment:
       DATABASE_HOST: db
       WEBPACKER_DEV_SERVER_HOST: webpacker
+      FIREBASE_PROJECT_ID: "$FIREBASE_PROJECT_ID"
     depends_on:
       - db
       - webpacker
@@ -36,6 +37,10 @@ services:
     user: ruby
     command: >
       bin/webpack-dev-server
+    environment:
+      FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
+      FIREBASE_API_KEY: "${FIREBASE_API_KEY}"
+      FIREBASE_AUTH_DOMAIN: "${FIREBASE_AUTH_DOMAIN}"
     volumes:
       - .:/src
     ports:
