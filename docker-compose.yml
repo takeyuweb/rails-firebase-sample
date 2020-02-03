@@ -27,8 +27,19 @@ services:
     stdin_open: true
     environment:
       DATABASE_HOST: db
+      WEBPACKER_DEV_SERVER_HOST: webpacker
     depends_on:
       - db
+      - webpacker
+  webpacker:
+    image: my_app
+    user: ruby
+    command: >
+      bin/webpack-dev-server
+    volumes:
+      - .:/src
+    ports:
+      - 3035:3035
   solargraph:
     image: my_app
     user: ruby
