@@ -39,8 +39,12 @@ export const withAuth = (
     }
 
     componentDidMount() {
-      auth.onAuthStateChanged((user: any) => {
+      auth.onAuthStateChanged(async (user: firebase.User) => {
         if (user) {
+          // FIXME: GraphiQLアクセス用のワークアラウンド
+          const idToken = await user.getIdToken();
+          document.cookie = `_graphql_token=${idToken}`;
+
           this.setState({ isLoggedIn: true, loading: false });
         } else {
           this.setState({ isLoggedIn: false, loading: false });

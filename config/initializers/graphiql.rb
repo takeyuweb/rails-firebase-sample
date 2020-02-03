@@ -1,0 +1,1 @@
+# Override GraphiQL::Rails.config
